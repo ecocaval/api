@@ -1,7 +1,6 @@
 package com.example.api.controller;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.dto.UserDto;
@@ -41,11 +41,12 @@ public class UsersController {
 
         if (user == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This user was not found");
-            
+
         return ResponseEntity.ok(user);
     }
 
     @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
     public void createUser(@RequestBody UserDto req) {
         userService.createUser(req);
     }
@@ -56,6 +57,7 @@ public class UsersController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);
     }
